@@ -47,3 +47,46 @@ delete 는 복구가 가능, TRUNCATE 불가능
 delete 는 log남김
 delete 보다 빠름 
 
+-- 이름 중복제거하고 조회
+select distinct name from author;
+
+-- 오름 차순 
+select * from author order by name asc;
+
+-- 내림 차순
+select * from author order by name desc;
+
+-- order by 멀티 : 먼저 쓴 컬럼 우선 졍렬 , asc / desc 생략시 asc
+select * from author order by name desc, email desc;
+
+-- limit number : 특정숫자로 결과값 개수 제한
+select * from author order by id desc limit 2; 
+
+--alias 를 이용한 select 문 
+select name as 이름 from author; 
+
+--as 생략가능
+select name, email from author as a;
+
+
+-- DDL, DML 전체실습
+create database board;
+use board;
+
+CREATE TABLE author(
+id int(11) primary key,
+name varchar(255) not null,
+password varchar(255),
+role varchar(50),
+address varchar(255)
+);
+describe author;
+
+CREATE TABLE post(
+id int(11) primary key,
+title varchar(255),
+contents varchar(255),
+author_id int(11),
+foreign key (author_id) REFERENCES author(id)
+);
+describe post;
