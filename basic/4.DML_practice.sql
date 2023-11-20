@@ -143,3 +143,48 @@ SELECT * FROM author WHERE name not LIKE '송%';
 
 -- 한글 패턴 수행후 숫자 패턴 수행
 select * from author where name REGEXP '([가-힣]\[1-9])';
+
+-- NOT NULL 예제
+-- ALTER 문을 써서 POST의 title 을 not null 조건으로 바꿔보자
+alter table post modify column title VARCHAR(255) not null;
+
+-- auto increment 예제
+-- author, post 테이블의 id에 auto_increment로 바꿔보자
+alter table author modify column id int AUTO_INCREMENT;
+
+--UNIQUE 실습
+-- unique 걸기
+alter table author modify column email varchar(255) unique;
+alter table author add constraint "제약조건 이름" unique(email);
+-- 첫 번째 방법
+ALTER TABLE author MODIFY COLUMN email VARCHAR(255) UNIQUE;
+-- 조회
+SELECT * FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE WHERE TABLE_NAME = 'author';
+-- 삭제
+ALTER TABLE author DROP CONSTRAINT email;
+SHOW index from author;
+-- 2번째 방법
+ALTER TABLE author ADD CONSTRAINT email UNIQUE(email);
+
+-- PRIMARY KEY 예시
+1. ALTER TABLE 테이블이름 MODIFY COLUMN 필드이름 필드타입 PRIMARY KEY
+2. ALTHER TABLE 테이블이름 ADD CONSTRAINT 제약조건이름 PRIMARY KEY(필드이름)
+
+1) foreign key(author_id) refernce author(id) on update casecade
+
+-- 기존의 foreign key 제약조건 조회 후 삭제
+select * from INFORMATION_SCHEMA.KEY_COLUMN_USAGE WHERE TABLE_NAME = 'post';
+select * from post;
+ALTER TABLE post DROP foreign key post_ibfk_1;
+ALTER TABLE post DROP INDEX author_id;
+
+-- 새롭게 제약조건 추가
+ALTER TABLE post ADD CONSTRAINT post_author_fk FOREIGN KEY(author_id) REFERENCES author(id) ON UPDATE CASCADE;
+-- 제약조건 두 개 추가하기.
+ALTER TABLE post ADD CONSTRAINT post_author_fk FOREIGN KEY(author_id) REFERENCES author(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+-- 실습
+post 테이블에서 id,title,contents, author_id는 author_type 이름으로 조회
+author_id = 1 이면 first_author , author_id = 2 second_author author_id >=3 
+
+
