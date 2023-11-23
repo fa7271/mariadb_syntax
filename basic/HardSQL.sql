@@ -88,10 +88,66 @@ BEGIN
 END //
 DELIMITER ;
 
- mysqldump -u root -p --default-character-set=utf8mb4 board > dumpfile.sql
+ mysqldump -u root -p --default-character-set=utf8mb4 board > dumpfile.sql  
 
- -- gitub 에 dump 파일업로드
- -- linux db 구축
- -- dump 파일 클론 git clone
- -- 해당 폴더로 이동하여 덤프 복원 명령어 실행
- 
+-- 스키마 추가 및 변경
+-- author 테이블을 나누어 author_address 테이블 추가
+-- country, state_city, details, zip code, phonenumber
+-- 1:1
+-- zuthor 와 post 관계가 여러명에서 한 post 를 수정할 수 있도록 스키마 수정
+
+-- 필요 산출물
+-- ER다이어그램, 릴레이셔널 스키마를 통해 구체화, 테이블 생성문, 테스트 케이스
+
+
+-- author_adress 테이블 생성
+create table author_adress(
+	id int primary key,
+    author_adress_id int,
+    country varchar(255),
+    state_city varchar(255),
+    details varchar(255),
+    zip_code int(15),
+    phonenumber int(11),
+    FOREIGN KEY (author_adress_id)
+    REFERENCES author(id) ON delete CASCADE
+);
+-- unique 키 추가.
+
+ALTER TABLE author_adress ADD CONSTRAINT UNIQUE(author_adress_id);
+describe author_adress;
+
+-- post_author 테이블 생성
+create table post_author(
+	id int primary key,
+    post_id int,
+    author_id int,
+	FOREIGN KEY (post_id)
+    REFERENCES post(id) ON delete CASCADE,
+	FOREIGN KEY (author_id)
+    REFERENCES author(id) ON delete CASCADE
+);
+
+-- post_autho_fk 포린키 삭제, 인덱스 삭제
+alter table post drop foreign key post_author_fk;
+alter table post drop author_id;
+ALTER TABLE post DROP INDEX post_author_fk;
+
+select * from author;
+-- adress 삭제
+alter table author drop address;
+
+-- author 데이터 삽입
+insert into author(name,password,age,email) values("송보석",1234,28,"fa7271@naver.com");
+insert into author(name,password,age,email) values("장은지",1234,26,"wdw0501@naver.com");
+select * from author;
+select * from author_adress;
+
+describe post_author;
+insert into author_adress(id, author_adress_id, country, state_city, details, details, zip_code, phonenumber) values(1,329,"수원","서울","금천구",1,1);
+
+
+create database ordersystem;
+
+order 에서 바나나2개 사과 3개 주문하면 
+orderdetail 에 바나나2개, 사과 3개 로 2개 row 나온다.

@@ -186,5 +186,3 @@ ALTER TABLE post ADD CONSTRAINT post_author_fk FOREIGN KEY(author_id) REFERENCES
 -- 실습
 post 테이블에서 id,title,contents, author_id는 author_type 이름으로 조회
 author_id = 1 이면 first_author , author_id = 2 second_author author_id >=3 
-
-
