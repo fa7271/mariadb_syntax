@@ -151,3 +151,22 @@ create database ordersystem;
 
 order 에서 바나나2개 사과 3개 주문하면 
 orderdetail 에 바나나2개, 사과 3개 로 2개 row 나온다.
+0	153	09:07:05	create table order_details(
+  id BIGINT primary key auto_increment,
+     order_details_id int, 
+     items_id int,
+     order_total_price int,
+     order_item_count int,
+     
+     FOREIGN KEY (order_details_id)REFERENCES orders(id) ON delete CASCADE,
+     FOREIGN KEY (items_id)REFERENCES ITEMS(id) ON update CASCADE
+0	158	09:09:12	create table order_details(
+  id BIGINT primary key auto_increment,
+     order_details_id int, 
+     items_id int,
+     order_total_price int,
+     order_item_count int,
+     
+     -- FOREIGN KEY (order_details_id)REFERENCES orders(id) ON delete CASCADE,
+     FOREIGN KEY (items_id) REFERENCES ITEMS(id) ON update CASCADE
+ )	
