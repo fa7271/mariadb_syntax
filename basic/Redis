@@ -1,0 +1,84 @@
+sudo apt-get update
+-- redis 설치
+sudo apt-get install -y redis-server
+-- 버전확인
+redis-server --version
+-> Redis server v=6.0.16 sha=00000000:0 malloc=jemalloc-5.2.1 bits=64 build=a3fdef44459b3ad6
+
+-- 접속
+redis-cli
+
+SET key value ex) SET hello world
+GET key ex) GET hello
+
+똑같은 KEY로 다른 VALUE값 넣으면 바뀐다.
+
+SET hello value world nx > nx: hello 키 밸류 값이 있으면 오류
+
+set song boseok ex 10 10초 뒤면 사라진다.
+
+-- 키 값 조회
+keys *
+--키 삭제
+del key이름
+--전체삭제
+flushd
+
+ -- 데이터 추가
+LPUSH, RPUSH
+EX) llplppush my_classesname song
+-- 데이터 추출
+LPOP KEY, RPOP KEY
+-- 리스트 조회하기
+lrange 'keyname' start end
+ex) lrange my_classesname 0 -1 : 0부터 끝까지
+-- 데이터 개수
+LLNE KEY
+
+TTL , 유효시간
+
+--만료시간 지정
+EXPIRE mykey 3600
+-- 남은 만료시간 확인
+ttl [key]
+
+
+ss고유한 사용자 id 목록, 이벤트에서 한 번만 참여할 수 있는 사용자 관리 등에 사용가능
+-- set에 멤버추가
+SADD myset member
+
+-- set의 모든 멤버 반환
+SMEMBERS myset
+
+-- 특정멤버 삭제
+SREM myset member1 member2
+
+-- set 길이 
+SCARD myset
+
+주식, 코인 등의 실시간 시세, 게임등 사용자의 점수나, 순위 관리
+
+-- 멤버 점수 정렬
+ZDD key score member
+	member 형식을 json으로도 가능
+	JSON 형식 :
+
+-- 특정키 삭제
+ZREM key member
+
+--특정멤버 위치 정보 반환
+ZRANK key member
+
+-- score 기준 오름차순 조회
+ZRANGE key 0 -1
+
+-- score 기준 내림차순 
+ZREVRANGE key 0 -1
+
+-- set 길이 
+ZCARD myset
+
+--  값 숫자 1 더하기
+incr key
+
+-- 키 값 숫자 1 빼기
